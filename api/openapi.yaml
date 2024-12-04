@@ -360,6 +360,8 @@ paths:
               example:
                 code: 403
                 message: Admin privileges required to change another user's password
+      security:
+      - cookieAuth: []
       x-swagger-router-controller: Account
   /account/update:
     put:
@@ -423,6 +425,8 @@ paths:
               example:
                 code: 403
                 message: Admin privileges required to update another user's account
+            security:
+      - cookieAuth: []
       x-swagger-router-controller: Account
   /account/details:
     get:
