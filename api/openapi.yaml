@@ -184,15 +184,22 @@ paths:
       tags:
       - Auth
       summary: Verify user's email address
-      description: Verifies the user's email address using a session cookie and an
-        optional token sent as a query parameter.
+      description: |
+        Verifies the user's email address using:
+        - A session cookie to identify the user account and fetch the associated email.
+        - A required verification token (`token`) sent as a query parameter.
+
+        **Behavior**:
+        - The server uses the session cookie to determine which user's email to verify.
+        - The `token` is mandatory and must match the verification token associated with the user's account.
+        - If the session is invalid or expired, or the `token` is missing/incorrect, an appropriate error response is returned.
+
       operationId: verifyEmail
       parameters:
       - name: token
         in: query
-        description: The email verification token sent to the user's email (optional
-          if session cookie is used)
-        required: false
+        description: The email verification token sent to the user's email.
+        required: true
         style: form
         explode: true
         schema:
@@ -206,7 +213,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
               example:
-                message: Email verified successfully.
+                message: "Email verified successfully."
         "400":
           description: Bad request - Missing or invalid session or token
           content:
@@ -215,7 +222,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
-                message: Invalid or missing session or token
+                message: "Invalid or missing session or token."
         "401":
           description: Unauthorized - Session is invalid or expired
           content:
@@ -224,7 +231,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 401
-                message: Session expired or invalid
+                message: "Session expired or invalid."
         "422":
           description: Validation error
           content:
@@ -233,7 +240,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 422
-                message: "Validation error: malformed token"
+                message: "Validation error: malformed token."
       security:
       - cookieAuth: []
       x-swagger-router-controller: Auth
