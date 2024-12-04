@@ -425,7 +425,7 @@ paths:
               example:
                 code: 403
                 message: Admin privileges required to update another user's account
-            security:
+      security:
       - cookieAuth: []
       x-swagger-router-controller: Account
   /account/details:
